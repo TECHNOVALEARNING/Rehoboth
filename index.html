@@ -495,7 +495,7 @@
         <div class="resa-form">
           <p class="label"><b>06</b> Réservation</p>
           <h2>Réservez <em>votre table</em></h2>
-          <p class="lead">Repas en famille, anniversaire ou événement privé : nous préparons la table qu'il vous faut.</p>
+          <p class="lead">Repas en famille, anniversaire ou événement privé : envoyez votre demande sur WhatsApp, nous vous confirmons rapidement.</p>
           <form id="resaForm">
             <div class="field"><label for="f-name">Nom</label><input id="f-name" required placeholder="Votre nom"></div>
             <div class="field"><label for="f-tel">Téléphone</label><input id="f-tel" type="tel" required placeholder="01 00 00 00 00"></div>
@@ -509,8 +509,8 @@
             <div class="field full"><label for="f-guests">Nombre de couverts</label>
               <select id="f-guests"><option>1 personne</option><option selected>2 personnes</option><option>3 personnes</option><option>4 personnes</option><option>5 personnes</option><option>6 personnes et plus</option></select>
             </div>
-            <button class="btn btn-fill" type="submit">Envoyer la demande</button>
-            <div class="form-ok" id="formOk">Merci, votre demande a bien été reçue. Nous vous rappelons pour confirmer. <em>(Démonstration : aucune donnée n'est envoyée.)</em></div>
+            <button class="btn btn-fill" type="submit">Réserver sur WhatsApp</button>
+            <div class="form-ok" id="formOk">WhatsApp s'ouvre avec votre demande déjà rédigée : il ne reste qu'à l'envoyer. Rien ne s'est ouvert ? <a href="#" target="_blank" rel="noopener" style="font-weight:600;border-bottom:1px solid currentColor">Ouvrir WhatsApp</a></div>
           </form>
           <p class="resa-note">Vous préférez appeler ? <a href="tel:+2290194608828">01 94 60 88 28</a></p>
         </div>
@@ -561,7 +561,7 @@
         <div class="socials">
           <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M14 8h3V4h-3c-2.8 0-4 1.7-4 4.3V10H7v4h3v8h4v-8h3l1-4h-4V8.6c0-.4.2-.6.6-.6Z"/></svg></a>
           <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 7.3a4.7 4.7 0 1 0 0 9.4 4.7 4.7 0 0 0 0-9.4Zm0 7.7a3 3 0 1 1 0-6 3 3 0 0 1 0 6Zm6-7.9a1.1 1.1 0 1 1-2.2 0 1.1 1.1 0 0 1 2.2 0ZM21 7c0-2.2-1.8-4-4-4H7C4.8 3 3 4.8 3 7v10c0 2.2 1.8 4 4 4h10c2.2 0 4-1.8 4-4V7Zm-2 10c0 1.1-.9 2-2 2H7c-1.1 0-2-.9-2-2V7c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2v10Z"/></svg></a>
-          <a href="#" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15l-1.4 5 5.1-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.4-.2Z"/></svg></a>
+          <a href="https://wa.me/2290194608828" data-wa target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15l-1.4 5 5.1-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.4-.2Z"/></svg></a>
         </div>
       </div>
       <div>
@@ -648,11 +648,21 @@
 
   // --- Formulaire de réservation (démo) ---
   document.getElementById('f-date').min = now.toISOString().slice(0, 10);
+  // --- Réservation : ouvre WhatsApp avec un message déjà rédigé ---
+  const WHATSAPP = '2290194608828';
+  const waLink = text => `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(text)}`;
   document.getElementById('resaForm').addEventListener('submit', e => {
     e.preventDefault();
-    document.getElementById('formOk').classList.add('show');
-    e.target.querySelector('button').disabled = true;
+    const val = id => document.getElementById(id).value.trim();
+    const [y, m, d] = val('f-date').split('-');
+    const message = `Bonjour Rehoboth, je souhaite réserver une table pour ${val('f-guests')}, le ${d}/${m}/${y} à ${val('f-time')}.\nNom : ${val('f-name')}\nTéléphone : ${val('f-tel')}`;
+    const link = waLink(message);
+    const ok = document.getElementById('formOk');
+    ok.querySelector('a').href = link;
+    ok.classList.add('show');
+    window.open(link, '_blank', 'noopener');
   });
+  document.querySelectorAll('[data-wa]').forEach(a => { a.href = waLink('Bonjour Rehoboth, '); });
 </script>
 </body>
 </html>

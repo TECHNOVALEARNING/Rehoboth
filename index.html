@@ -1,0 +1,658 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rehoboth — Restaurant à Porto-Novo</title>
+<meta name="description" content="Rehoboth, restaurant à Porto-Novo. Cuisine béninoise fraîche et généreuse, cadre calme. Ouvert 7j/7 dès 9h.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..500;1,9..144,300..500&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f8f6f1;
+    --white: #ffffff;
+    --ink: #1d1f1c;
+    --muted: #6f6c66;
+    --line: #e5e0d7;
+    --accent: #a5482b;       /* terre cuite, utilisée avec parcimonie */
+    --green: #233128;        /* vert profond pour les sections sombres */
+    --green-2: #2c3c31;
+    --serif: "Fraunces", Georgia, serif;
+    --sans: "Manrope", system-ui, -apple-system, sans-serif;
+    --max: 1200px;
+    --header: 80px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { background: var(--bg); color: var(--ink); font: 400 16px/1.7 var(--sans); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+  button, input, select { font: inherit; color: inherit; }
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 40px; }
+  section { padding: 128px 0; scroll-margin-top: var(--header); }
+
+  h1, h2, h3, h4 { font-family: var(--serif); font-weight: 300; line-height: 1.08; letter-spacing: -.015em; font-optical-sizing: auto; }
+  h2 { font-size: clamp(38px, 4.4vw, 56px); margin-bottom: 22px; }
+  h1 em, h2 em { font-style: italic; }
+  .lead { color: var(--muted); font-size: 17px; max-width: 52ch; }
+
+  .label {
+    display: flex; align-items: center; gap: 14px; margin-bottom: 24px;
+    font-size: 12px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--muted);
+  }
+  .label b { color: var(--accent); font-weight: 600; }
+  .label::after { content: ""; width: 40px; height: 1px; background: var(--line); }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    height: 52px; padding: 0 28px; border: 1px solid var(--ink); border-radius: 0;
+    font-size: 13px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+    background: none; cursor: pointer; transition: background .25s, color .25s, border-color .25s;
+  }
+  .btn:hover { background: var(--ink); color: var(--white); }
+  .btn-fill { background: var(--ink); color: var(--white); }
+  .btn-fill:hover { background: var(--accent); border-color: var(--accent); }
+  .link { font-size: 13px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; border-bottom: 1px solid currentColor; padding-bottom: 3px; transition: color .2s; }
+  .link:hover { color: var(--accent); }
+
+  /* ---------- Header ---------- */
+  header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 20; height: var(--header);
+    background: rgba(248,246,241,.94); backdrop-filter: blur(10px);
+    border-bottom: 1px solid transparent; transition: border-color .3s;
+  }
+  body.scrolled header { border-color: var(--line); }
+  header nav { display: flex; align-items: center; justify-content: space-between; height: 100%; }
+  .logo { font-family: var(--serif); font-size: 28px; font-weight: 400; letter-spacing: -.01em; }
+  .menu-links { display: flex; gap: 38px; list-style: none; font-size: 14px; font-weight: 500; }
+  .menu-links a { color: var(--muted); transition: color .2s; }
+  .menu-links a:hover { color: var(--ink); }
+  header .btn { height: 44px; padding: 0 20px; font-size: 12px; }
+  .burger { display: none; width: 44px; height: 44px; border: 0; background: none; cursor: pointer; position: relative; }
+  .burger span, .burger span::before, .burger span::after { position: absolute; left: 10px; right: 10px; height: 1.5px; background: var(--ink); content: ""; transition: transform .3s, background .3s; }
+  .burger span { top: 50%; }
+  .burger span::before { left: 0; right: 0; top: -6px; }
+  .burger span::after { left: 0; right: 0; top: 6px; }
+
+  /* ---------- Hero ---------- */
+  .hero { padding: calc(var(--header) + 56px) 0 0; }
+  .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; min-height: calc(100vh - var(--header) - 180px); }
+  .hero h1 { font-size: clamp(48px, 5.8vw, 84px); }
+  .hero h1 em { color: var(--accent); }
+  .hero .lead { margin: 28px 0 40px; font-size: 18px; }
+  .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+  /* Seule touche signature : l'arche des maisons de Porto-Novo */
+  .hero-img { aspect-ratio: 4 / 5; max-height: 72vh; width: 100%; object-fit: cover; border-radius: 999px 999px 0 0; justify-self: end; }
+
+  .facts { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 72px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .fact { padding: 26px 28px; border-left: 1px solid var(--line); }
+  .fact:first-child { border-left: 0; padding-left: 0; }
+  .fact small { display: block; font-size: 11px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .fact span { font-size: 16px; font-weight: 500; }
+  .fact .stars { color: var(--accent); letter-spacing: 2px; font-size: 13px; margin-left: 6px; }
+  .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #4f8a5f; margin-right: 8px; vertical-align: middle; }
+  .dot.closed { background: var(--accent); }
+
+  .rise { opacity: 0; transform: translateY(16px); animation: rise .9s cubic-bezier(.2,.7,.2,1) forwards; }
+  .rise.d1 { animation-delay: .1s } .rise.d2 { animation-delay: .2s } .rise.d3 { animation-delay: .3s }
+  @keyframes rise { to { opacity: 1; transform: none; } }
+
+  /* ---------- La maison ---------- */
+  .about { display: grid; grid-template-columns: 1fr 1fr; gap: 96px; align-items: center; }
+  .about-imgs { display: grid; grid-template-columns: 1.4fr 1fr; gap: 16px; align-items: end; }
+  .about-imgs img { width: 100%; object-fit: cover; }
+  .about-imgs img:first-child { aspect-ratio: 3 / 4; }
+  .about-imgs img:last-child { aspect-ratio: 3 / 4; margin-bottom: 48px; }
+  .about p + p { margin-top: 16px; }
+  .points { list-style: none; margin-top: 40px; border-top: 1px solid var(--line); }
+  .points li { display: grid; grid-template-columns: 48px 1fr; padding: 18px 0; border-bottom: 1px solid var(--line); }
+  .points li b { font-family: var(--serif); font-weight: 400; font-style: italic; color: var(--accent); }
+  .points li strong { font-weight: 600; }
+  .points li span { color: var(--muted); font-size: 15px; }
+
+  /* ---------- Spécialités ---------- */
+  #specialites { background: var(--white); }
+  .head { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; margin-bottom: 56px; flex-wrap: wrap; }
+  .head h2 { margin-bottom: 0; }
+  .dishes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
+  .dish .img { aspect-ratio: 4 / 5; overflow: hidden; background: var(--bg); }
+  .dish img { width: 100%; height: 100%; object-fit: cover; transition: transform .8s cubic-bezier(.2,.7,.2,1); }
+  .dish:hover img { transform: scale(1.04); }
+  .dish .meta { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-top: 20px; }
+  .dish h3 { font-size: 23px; font-weight: 400; }
+  .dish .price { font-size: 14px; font-weight: 600; white-space: nowrap; }
+  .dish p { font-size: 14.5px; color: var(--muted); margin-top: 6px; }
+  .dish .tag { display: inline-block; margin-bottom: 10px; font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
+
+  /* ---------- Carte ---------- */
+  .menu-head { text-align: center; }
+  .menu-head .label { justify-content: center; }
+  .menu-head .label::before { content: ""; width: 40px; height: 1px; background: var(--line); }
+  .menu-head .lead { margin: 0 auto; }
+  .tabs { display: flex; justify-content: center; gap: 40px; margin: 48px 0 56px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+  .tab {
+    background: none; border: 0; padding: 0 0 16px; cursor: pointer; position: relative;
+    font-size: 14px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); transition: color .2s;
+  }
+  .tab::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--ink); transform: scaleX(0); transition: transform .3s; }
+  .tab:hover, .tab.active { color: var(--ink); }
+  .tab.active::after { transform: scaleX(1); }
+  .panel { display: none; grid-template-columns: 1fr 1fr; gap: 0 96px; max-width: 1000px; margin: 0 auto; }
+  .panel.active { display: grid; animation: fade .4s; }
+  @keyframes fade { from { opacity: 0; } }
+  .item { padding: 22px 0; border-bottom: 1px solid var(--line); }
+  .item .row { display: flex; justify-content: space-between; align-items: baseline; gap: 20px; }
+  .item h4 { font-size: 21px; font-weight: 400; }
+  .item .p { font-size: 15px; font-weight: 600; white-space: nowrap; }
+  .item p { font-size: 14.5px; color: var(--muted); margin-top: 4px; }
+  .item .new { font-family: var(--sans); font-size: 10.5px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-left: 10px; }
+  .menu-foot { text-align: center; margin-top: 48px; font-size: 13px; color: var(--muted); }
+
+  /* ---------- Citation ---------- */
+  .quote { background: var(--green); color: #f1ede4; text-align: center; }
+  .quote .stars { color: #d9a77f; letter-spacing: 4px; font-size: 14px; }
+  .quote blockquote { font-family: var(--serif); font-weight: 300; font-style: italic; font-size: clamp(30px, 3.8vw, 48px); line-height: 1.25; max-width: 24ch; margin: 28px auto 0; }
+  .quote cite { display: block; margin-top: 28px; font-style: normal; font-size: 12px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: rgba(241,237,228,.6); }
+
+  /* ---------- Galerie ---------- */
+  .gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .gallery figure { aspect-ratio: 1; overflow: hidden; background: var(--line); }
+  .gallery img { width: 100%; height: 100%; object-fit: cover; transition: transform .8s cubic-bezier(.2,.7,.2,1); }
+  .gallery figure:hover img { transform: scale(1.04); }
+
+  /* ---------- Avis ---------- */
+  #avis { background: var(--white); }
+  .rating { display: flex; align-items: center; gap: 16px; }
+  .rating b { font-family: var(--serif); font-size: 64px; font-weight: 300; line-height: 1; }
+  .rating .stars { color: var(--accent); letter-spacing: 3px; }
+  .rating small { display: block; font-size: 13px; color: var(--muted); }
+  .reviews { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; }
+  .review { border-top: 1px solid var(--ink); padding-top: 28px; }
+  .review .stars { color: var(--accent); letter-spacing: 3px; font-size: 13px; }
+  .review blockquote { font-family: var(--serif); font-weight: 300; font-size: 22px; line-height: 1.45; margin: 16px 0 24px; }
+  .review .who { font-size: 14px; font-weight: 600; }
+  .review .who span { font-weight: 400; color: var(--muted); }
+
+  /* ---------- Réservation ---------- */
+  .resa { display: grid; grid-template-columns: 1fr 1fr; gap: 0; background: var(--white); }
+  .resa-img { min-height: 100%; object-fit: cover; width: 100%; height: 100%; }
+  .resa-form { padding: 80px 72px; }
+  form { display: grid; grid-template-columns: 1fr 1fr; gap: 26px 28px; margin-top: 36px; }
+  .field { display: flex; flex-direction: column; gap: 8px; }
+  .field.full { grid-column: 1 / -1; }
+  label { font-size: 11px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+  input, select {
+    background: transparent; border: 0; border-bottom: 1px solid #cfc8bc; padding: 10px 0; font-size: 16px;
+    border-radius: 0; outline: none; -webkit-appearance: none; appearance: none; transition: border-color .2s;
+  }
+  input:focus, select:focus { border-color: var(--ink); }
+  form .btn { grid-column: 1 / -1; margin-top: 8px; }
+  .form-ok { display: none; grid-column: 1 / -1; padding: 16px 18px; background: var(--bg); border-left: 2px solid var(--accent); font-size: 14.5px; }
+  .form-ok.show { display: block; }
+  .resa-note { margin-top: 24px; font-size: 14px; color: var(--muted); }
+  .resa-note a { color: var(--ink); font-weight: 600; border-bottom: 1px solid currentColor; }
+
+  /* ---------- Infos ---------- */
+  .visit { display: grid; grid-template-columns: 1fr 1fr 1.2fr; gap: 64px; }
+  .visit h3 { font-size: 24px; font-weight: 400; margin-bottom: 18px; }
+  .hours { list-style: none; }
+  .hours li { display: flex; justify-content: space-between; padding: 11px 0; border-bottom: 1px solid var(--line); font-size: 15px; }
+  .hours li span:last-child { color: var(--muted); font-variant-numeric: tabular-nums; }
+  .hours li.today, .hours li.today span:last-child { color: var(--ink); font-weight: 600; }
+  .contact-list { list-style: none; display: grid; gap: 22px; }
+  .contact-list small { display: block; font-size: 11px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+  .contact-list a, .contact-list p { font-size: 17px; }
+  .contact-list a:hover { color: var(--accent); }
+  .map { min-height: 360px; background: var(--line); }
+  .map iframe { width: 100%; height: 100%; min-height: 360px; border: 0; filter: grayscale(1) contrast(1.02); }
+
+  /* ---------- Footer ---------- */
+  footer { background: var(--green); color: rgba(241,237,228,.7); padding: 88px 0 32px; font-size: 14.5px; }
+  .foot-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 56px; border-bottom: 1px solid rgba(241,237,228,.14); }
+  footer .logo { color: #f1ede4; display: inline-block; margin-bottom: 16px; }
+  footer h5 { font-size: 11px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: #f1ede4; margin-bottom: 18px; }
+  footer ul { list-style: none; display: grid; gap: 9px; }
+  footer a:hover { color: #fff; }
+  .socials { display: flex; gap: 10px; margin-top: 24px; }
+  .socials a { width: 38px; height: 38px; border: 1px solid rgba(241,237,228,.25); border-radius: 50%; display: grid; place-items: center; transition: background .2s, border-color .2s; }
+  .socials a:hover { background: var(--green-2); border-color: rgba(241,237,228,.5); }
+  .socials svg { width: 15px; height: 15px; fill: currentColor; }
+  .foot-bottom { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding-top: 28px; font-size: 12.5px; color: rgba(241,237,228,.45); }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 1080px) {
+    .dishes { grid-template-columns: repeat(2, 1fr); gap: 40px 24px; }
+    .visit { grid-template-columns: 1fr 1fr; }
+    .visit .map { grid-column: 1 / -1; }
+    .foot-grid { grid-template-columns: 1fr 1fr; }
+    .facts { grid-template-columns: 1fr 1fr; }
+    .fact:nth-child(3) { border-left: 0; padding-left: 0; }
+    .fact:nth-child(n+3) { border-top: 1px solid var(--line); }
+  }
+  @media (max-width: 880px) {
+    :root { --header: 68px; }
+    section { padding: 88px 0; }
+    .wrap { padding: 0 20px; }
+    .burger { display: block; }
+    header .btn { display: none; }
+    .menu-links {
+      position: fixed; top: var(--header); left: 0; right: 0; height: calc(100vh - var(--header)); height: calc(100svh - var(--header));
+      flex-direction: column; justify-content: center; align-items: center; gap: 26px;
+      background: var(--bg); font-family: var(--serif); font-size: 30px; font-weight: 300;
+      opacity: 0; pointer-events: none; transition: opacity .25s;
+    }
+    .menu-links a { color: var(--ink); }
+    body.menu-open .menu-links { opacity: 1; pointer-events: auto; }
+    body.menu-open header { background: var(--bg); backdrop-filter: none; border-color: var(--line); }
+    body.menu-open .burger span { background: transparent; }
+    body.menu-open .burger span::before { transform: translateY(6px) rotate(45deg); }
+    body.menu-open .burger span::after { transform: translateY(-6px) rotate(-45deg); }
+
+    .hero { padding-top: calc(var(--header) + 32px); }
+    .hero-grid { grid-template-columns: 1fr; gap: 40px; min-height: 0; }
+    .hero-img { max-height: none; aspect-ratio: 4 / 4.4; }
+    .facts { margin-top: 48px; }
+    .fact { padding: 20px 16px; }
+    .fact:nth-child(odd) { padding-left: 0; }
+    .about { grid-template-columns: 1fr; gap: 56px; }
+    .panel { grid-template-columns: 1fr; }
+    .tabs { gap: 24px; }
+    .gallery { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .reviews { grid-template-columns: 1fr; gap: 40px; }
+    .resa { grid-template-columns: 1fr; }
+    .resa-img { aspect-ratio: 4 / 3; height: auto; }
+    .resa-form { padding: 56px 20px; }
+    .visit { grid-template-columns: 1fr; gap: 48px; }
+  }
+  @media (max-width: 560px) {
+    .dishes { grid-template-columns: 1fr; }
+    form { grid-template-columns: 1fr; }
+    .foot-grid { grid-template-columns: 1fr; }
+    .tabs { gap: 18px; }
+    .tab { font-size: 12.5px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .rise { opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<header id="header">
+  <nav class="wrap">
+    <a href="#top" class="logo">Rehoboth</a>
+    <ul class="menu-links">
+      <li><a href="#apropos">La maison</a></li>
+      <li><a href="#specialites">Spécialités</a></li>
+      <li><a href="#carte">La carte</a></li>
+      <li><a href="#galerie">Galerie</a></li>
+      <li><a href="#avis">Avis</a></li>
+      <li><a href="#infos">Infos</a></li>
+    </ul>
+    <a href="#reservation" class="btn btn-fill">Réserver</a>
+    <button class="burger" id="burger" aria-label="Ouvrir le menu"><span></span></button>
+  </nav>
+</header>
+
+<main id="top">
+  <!-- Hero -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div>
+          <p class="label rise">Restaurant · Porto-Novo</p>
+          <h1 class="rise d1">Une cuisine sincère, un lieu où <em>prendre son temps</em>.</h1>
+          <p class="lead rise d2">Des plats béninois frais et généreux, servis dans un cadre calme par une équipe attentive. Ouvert tous les jours, du matin jusque tard le soir.</p>
+          <div class="hero-actions rise d3">
+            <a href="#reservation" class="btn btn-fill">Réserver une table</a>
+            <a href="#carte" class="btn">Voir la carte</a>
+          </div>
+        </div>
+        <img class="hero-img rise d2" src="images/salle.jpg" alt="La salle ouverte du restaurant Rehoboth">
+      </div>
+      <div class="facts">
+        <div class="fact"><small>Aujourd'hui</small><span><i class="dot" id="statusDot"></i><span id="statusText">Ouvert</span></span></div>
+        <div class="fact"><small>Note Google</small><span>5,0<span class="stars">★★★★★</span></span></div>
+        <div class="fact"><small>Réservations</small><span><a href="tel:+2290194608828">01 94 60 88 28</a></span></div>
+        <div class="fact"><small>Adresse</small><span>Tokpota Zèbè, Porto-Novo</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- La maison -->
+  <section id="apropos">
+    <div class="wrap about">
+      <div class="about-imgs">
+        <img src="images/bar-2.jpg" alt="Le bar en bambou du Rehoboth">
+        <img src="images/coursive.jpg" alt="La coursive à l'étage du Rehoboth">
+      </div>
+      <div>
+        <p class="label"><b>01</b> La maison</p>
+        <h2>Une table où l'on se sent <em>chez soi</em>.</h2>
+        <p class="lead">Au cœur de Porto-Novo, Rehoboth cuisine des produits frais avec soin, dans le respect des saveurs d'ici.</p>
+        <p class="lead">Déjeuner d'affaires, dîner en famille ou soirée entre amis : notre équipe vous accueille avec le même souci du détail, du premier café au dernier verre.</p>
+        <ul class="points">
+          <li><b>i.</b><div><strong>Produits frais</strong><br><span>Choisis chaque matin au marché, cuisinés le jour même.</span></div></li>
+          <li><b>ii.</b><div><strong>Cuisine maison</strong><br><span>Des recettes béninoises généreuses, aux portions honnêtes.</span></div></li>
+          <li><b>iii.</b><div><strong>Jeux &amp; détente</strong><br><span>Salle ouverte, billard et salon, de 9h jusqu'à tard.</span></div></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Spécialités -->
+  <section id="specialites">
+    <div class="wrap">
+      <div class="head">
+        <div>
+          <p class="label"><b>02</b> Spécialités</p>
+          <h2>Nos plats <em>signature</em></h2>
+        </div>
+        <a href="#carte" class="link">Voir toute la carte</a>
+      </div>
+      <div class="dishes">
+        <article class="dish">
+          <div class="img"><img src="images/plat-poisson.jpg" alt="Poisson braisé servi au Rehoboth"></div>
+          <div class="meta"><h3>Poisson braisé</h3><span class="price">6 500 F</span></div>
+          <p>Poisson du jour grillé, semoule parfumée, légumes et piment vert.</p>
+        </article>
+        <article class="dish">
+          <div class="img"><img src="https://images.unsplash.com/photo-1603496987674-79600a000f55?auto=format&fit=crop&w=700&q=80" alt="Poulet braisé sur riz"></div>
+          <div class="meta"><h3>Poulet bicyclette</h3><span class="price">5 000 F</span></div>
+          <p>Poulet fermier mariné aux épices, braisé lentement, riz jaune.</p>
+        </article>
+        <article class="dish">
+          <div class="img"><img src="https://images.unsplash.com/photo-1763048443535-1243379234e2?auto=format&fit=crop&w=700&q=80" alt="Sauce traditionnelle aux viandes"></div>
+          <div class="meta"><h3>Sauce gombo &amp; viandes</h3><span class="price">4 500 F</span></div>
+          <p>Sauce onctueuse aux viandes assorties, avec pâte ou akassa.</p>
+        </article>
+        <article class="dish">
+          <div class="img"><img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=700&q=80" alt="Brochettes grillées"></div>
+          <div class="meta"><h3>Brochettes du grill</h3><span class="price">4 000 F</span></div>
+          <p>Bœuf et poulet marinés, légumes grillés, sauce maison.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Carte -->
+  <section id="carte">
+    <div class="wrap">
+      <div class="menu-head">
+        <p class="label"><b>03</b> La carte</p>
+        <h2>Du matin <em>au soir</em></h2>
+        <p class="lead">Une carte courte, de saison, qui évolue au rythme du marché.</p>
+      </div>
+      <div class="tabs" role="tablist">
+        <button class="tab active" data-tab="entrees">Entrées</button>
+        <button class="tab" data-tab="plats">Plats</button>
+        <button class="tab" data-tab="grill">Grillades</button>
+        <button class="tab" data-tab="boissons">Boissons</button>
+      </div>
+
+      <div class="panel active" id="entrees">
+        <div class="item"><div class="row"><h4>Salade Rehoboth</h4><span class="p">2 500</span></div><p>Crudités, avocat, œuf, vinaigrette citron-gingembre</p></div>
+        <div class="item"><div class="row"><h4>Alloco</h4><span class="p">1 500</span></div><p>Bananes plantain frites, sauce tomate pimentée</p></div>
+        <div class="item"><div class="row"><h4>Akara</h4><span class="p">1 500</span></div><p>Beignets de niébé croustillants, piment frais</p></div>
+        <div class="item"><div class="row"><h4>Soupe du jour</h4><span class="p">2 000</span></div><p>Selon l'humeur du chef et le marché</p></div>
+      </div>
+
+      <div class="panel" id="plats">
+        <div class="item"><div class="row"><h4>Amiwo au poulet<span class="new">Maison</span></h4><span class="p">4 000</span></div><p>Pâte rouge de maïs, poulet en sauce tomate</p></div>
+        <div class="item"><div class="row"><h4>Sauce arachide</h4><span class="p">4 000</span></div><p>Bœuf mijoté, riz blanc ou pâte</p></div>
+        <div class="item"><div class="row"><h4>Riz gras</h4><span class="p">3 500</span></div><p>Riz cuisiné aux légumes, viande au choix</p></div>
+        <div class="item"><div class="row"><h4>Atassi</h4><span class="p">3 000</span></div><p>Riz et haricots, sauce tomate, œuf et poisson frit</p></div>
+        <div class="item"><div class="row"><h4>Sauce gombo &amp; viandes</h4><span class="p">4 500</span></div><p>Avec pâte de maïs ou akassa</p></div>
+        <div class="item"><div class="row"><h4>Spaghetti sautés</h4><span class="p">3 000</span></div><p>Légumes, œuf, poulet émincé</p></div>
+      </div>
+
+      <div class="panel" id="grill">
+        <div class="item"><div class="row"><h4>Poisson braisé entier</h4><span class="p">6 000</span></div><p>Tilapia ou bar, oignons, attiéké ou alloco</p></div>
+        <div class="item"><div class="row"><h4>Poulet bicyclette</h4><span class="p">5 000</span></div><p>Demi-poulet braisé, frites ou riz</p></div>
+        <div class="item"><div class="row"><h4>Brochettes mixtes</h4><span class="p">4 000</span></div><p>Bœuf et poulet marinés, légumes</p></div>
+        <div class="item"><div class="row"><h4>Côtes d'agneau<span class="new">Week-end</span></h4><span class="p">7 500</span></div><p>Marinade aux herbes, igname frite</p></div>
+      </div>
+
+      <div class="panel" id="boissons">
+        <div class="item"><div class="row"><h4>Bissap maison</h4><span class="p">1 000</span></div><p>Hibiscus, menthe fraîche, une pointe de gingembre</p></div>
+        <div class="item"><div class="row"><h4>Jus de gingembre</h4><span class="p">1 000</span></div><p>Pressé à la minute, citron vert</p></div>
+        <div class="item"><div class="row"><h4>Cocktail du soir</h4><span class="p">3 000</span></div><p>Création du bar, avec ou sans alcool</p></div>
+        <div class="item"><div class="row"><h4>Bières locales</h4><span class="p">1 000</span></div><p>Béninoise, Flag, Castel</p></div>
+        <div class="item"><div class="row"><h4>Café &amp; thé</h4><span class="p">800</span></div><p>Pour bien commencer la journée</p></div>
+        <div class="item"><div class="row"><h4>Eau minérale</h4><span class="p">500</span></div><p>Plate ou gazeuse</p></div>
+      </div>
+
+      <p class="menu-foot">Prix en FCFA, service compris · Menu indicatif pour la maquette</p>
+    </div>
+  </section>
+
+  <!-- Citation -->
+  <section class="quote">
+    <div class="wrap">
+      <span class="stars">★★★★★</span>
+      <blockquote>« Le cadre est vraiment agréable. J'y retournerai sans hésiter. »</blockquote>
+      <cite>Cedric A. · Local Guide Google</cite>
+    </div>
+  </section>
+
+  <!-- Galerie -->
+  <section id="galerie">
+    <div class="wrap">
+      <div class="head">
+        <div>
+          <p class="label"><b>04</b> Galerie</p>
+          <h2>L'ambiance <em>Rehoboth</em></h2>
+        </div>
+        <p class="lead" style="max-width:36ch">De la façade à l'espace jeux, un aperçu des lieux.</p>
+      </div>
+      <div class="gallery">
+        <figure><img src="images/facade.jpg" alt="La façade du Rehoboth" loading="lazy"></figure>
+        <figure><img src="images/salle.jpg" alt="La salle ouverte" loading="lazy"></figure>
+        <figure><img src="images/bar.jpg" alt="Le bar en bambou" loading="lazy"></figure>
+        <figure><img src="images/jeux.jpg" alt="L'espace jeux" loading="lazy"></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- Avis -->
+  <section id="avis">
+    <div class="wrap">
+      <div class="head">
+        <div>
+          <p class="label"><b>05</b> Avis</p>
+          <h2>Ce que disent <em>nos hôtes</em></h2>
+        </div>
+        <div class="rating"><b>5,0</b><div><span class="stars">★★★★★</span><small>16 avis sur Google</small></div></div>
+      </div>
+      <div class="reviews">
+        <div class="review">
+          <span class="stars">★★★★★</span>
+          <blockquote>Les plats sont savoureux et bien présentés, avec des portions correctes. Le personnel est accueillant et professionnel.</blockquote>
+          <p class="who">Cedric A. <span>· Local Guide</span></p>
+        </div>
+        <div class="review">
+          <span class="stars">★★★★★</span>
+          <blockquote>J'aime beaucoup ce cadre tranquille, personnel bien formé. Merci aux cuisiniers qui font du bon boulot.</blockquote>
+          <p class="who">Serge N. <span>· Google</span></p>
+        </div>
+        <div class="review">
+          <span class="stars">★★★★★</span>
+          <blockquote>Très bon accueil, cuisine fraîche et goûteuse, toujours un vrai plaisir.</blockquote>
+          <p class="who">Daniel R. <span>· Google</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Réservation -->
+  <section id="reservation">
+    <div class="wrap">
+      <div class="resa">
+        <img class="resa-img" src="images/detente.jpg" alt="Le salon détente et le billard du Rehoboth">
+        <div class="resa-form">
+          <p class="label"><b>06</b> Réservation</p>
+          <h2>Réservez <em>votre table</em></h2>
+          <p class="lead">Repas en famille, anniversaire ou événement privé : nous préparons la table qu'il vous faut.</p>
+          <form id="resaForm">
+            <div class="field"><label for="f-name">Nom</label><input id="f-name" required placeholder="Votre nom"></div>
+            <div class="field"><label for="f-tel">Téléphone</label><input id="f-tel" type="tel" required placeholder="01 00 00 00 00"></div>
+            <div class="field"><label for="f-date">Date</label><input id="f-date" type="date" required></div>
+            <div class="field"><label for="f-time">Heure</label>
+              <select id="f-time" required>
+                <option>12:00</option><option>12:30</option><option>13:00</option><option>13:30</option>
+                <option>19:00</option><option selected>19:30</option><option>20:00</option><option>20:30</option><option>21:00</option>
+              </select>
+            </div>
+            <div class="field full"><label for="f-guests">Nombre de couverts</label>
+              <select id="f-guests"><option>1 personne</option><option selected>2 personnes</option><option>3 personnes</option><option>4 personnes</option><option>5 personnes</option><option>6 personnes et plus</option></select>
+            </div>
+            <button class="btn btn-fill" type="submit">Envoyer la demande</button>
+            <div class="form-ok" id="formOk">Merci, votre demande a bien été reçue. Nous vous rappelons pour confirmer. <em>(Démonstration : aucune donnée n'est envoyée.)</em></div>
+          </form>
+          <p class="resa-note">Vous préférez appeler ? <a href="tel:+2290194608828">01 94 60 88 28</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Infos -->
+  <section id="infos" style="padding-top:40px">
+    <div class="wrap">
+      <p class="label"><b>07</b> Infos pratiques</p>
+      <h2 style="margin-bottom:56px">Venez <em>nous voir</em></h2>
+      <div class="visit">
+        <div>
+          <h3>Horaires</h3>
+          <ul class="hours" id="hours">
+            <li data-day="1"><span>Lundi</span><span>09:00 – 23:00</span></li>
+            <li data-day="2"><span>Mardi</span><span>09:00 – 23:00</span></li>
+            <li data-day="3"><span>Mercredi</span><span>09:00 – 23:00</span></li>
+            <li data-day="4"><span>Jeudi</span><span>09:00 – 23:00</span></li>
+            <li data-day="5"><span>Vendredi</span><span>09:00 – 01:00</span></li>
+            <li data-day="6"><span>Samedi</span><span>09:00 – 01:00</span></li>
+            <li data-day="0"><span>Dimanche</span><span>09:00 – 01:00</span></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Contact</h3>
+          <ul class="contact-list">
+            <li><small>Téléphone</small><a href="tel:+2290194608828">01 94 60 88 28</a></li>
+            <li><small>Adresse</small><p>Tokpota Zèbè, Porto-Novo<br>Bénin</p></li>
+            <li><small>Itinéraire</small><a href="https://maps.app.goo.gl/fDKLf6QQYrHKo5Fr5" target="_blank" rel="noopener" class="link">Ouvrir dans Google Maps</a></li>
+          </ul>
+        </div>
+        <div class="map">
+          <iframe loading="lazy" title="Carte — Rehoboth, Porto-Novo" src="https://maps.google.com/maps?q=6.4900012,2.596437&z=16&output=embed"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a href="#top" class="logo">Rehoboth</a>
+        <p style="max-width:32ch">Cuisine béninoise fraîche et généreuse, dans un cadre calme au cœur de Porto-Novo.</p>
+        <div class="socials">
+          <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M14 8h3V4h-3c-2.8 0-4 1.7-4 4.3V10H7v4h3v8h4v-8h3l1-4h-4V8.6c0-.4.2-.6.6-.6Z"/></svg></a>
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 7.3a4.7 4.7 0 1 0 0 9.4 4.7 4.7 0 0 0 0-9.4Zm0 7.7a3 3 0 1 1 0-6 3 3 0 0 1 0 6Zm6-7.9a1.1 1.1 0 1 1-2.2 0 1.1 1.1 0 0 1 2.2 0ZM21 7c0-2.2-1.8-4-4-4H7C4.8 3 3 4.8 3 7v10c0 2.2 1.8 4 4 4h10c2.2 0 4-1.8 4-4V7Zm-2 10c0 1.1-.9 2-2 2H7c-1.1 0-2-.9-2-2V7c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2v10Z"/></svg></a>
+          <a href="#" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15l-1.4 5 5.1-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.4-.2Z"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <h5>Navigation</h5>
+        <ul>
+          <li><a href="#apropos">La maison</a></li>
+          <li><a href="#carte">La carte</a></li>
+          <li><a href="#galerie">Galerie</a></li>
+          <li><a href="#reservation">Réservation</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Horaires</h5>
+        <ul>
+          <li>Lun – Jeu · 09h – 23h</li>
+          <li>Ven – Dim · 09h – 01h</li>
+        </ul>
+      </div>
+      <div>
+        <h5>Contact</h5>
+        <ul>
+          <li><a href="tel:+2290194608828">01 94 60 88 28</a></li>
+          <li>Tokpota Zèbè, Porto-Novo</li>
+          <li>Bénin</li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Rehoboth · Porto-Novo</span>
+      <span>Maquette · Photos du lieu : Rehoboth via Google Maps</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // --- Horaires : jour courant + statut ouvert/fermé ---
+  const schedule = { 0: [9, 25], 1: [9, 23], 2: [9, 23], 3: [9, 23], 4: [9, 23], 5: [9, 25], 6: [9, 25] };
+  const now = new Date();
+  const day = now.getDay();
+  const hour = now.getHours() + now.getMinutes() / 60;
+  document.querySelector(`#hours li[data-day="${day}"]`)?.classList.add('today');
+  const [open, close] = schedule[day];
+  const prevClose = schedule[(day + 6) % 7][1];
+  const isOpen = (hour >= open && hour < close) || (prevClose > 24 && hour < prevClose - 24);
+  const until = String((hour < open ? prevClose : close) % 24).padStart(2, '0');
+  document.getElementById('statusDot').classList.toggle('closed', !isOpen);
+  document.getElementById('statusText').textContent = isOpen ? `Ouvert jusqu'à ${until}h` : 'Fermé · ouvre à 9h';
+
+  // --- Header au défilement ---
+  const header = document.getElementById('header');
+  const onScroll = () => document.body.classList.toggle('scrolled', window.scrollY > 10);
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // --- Menu mobile ---
+  document.getElementById('burger').addEventListener('click', () => document.body.classList.toggle('menu-open'));
+
+  // --- Défilement vers les sections, en tenant compte du header fixe ---
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', e => {
+      const id = link.getAttribute('href').slice(1);
+      if (!id) { e.preventDefault(); return; }
+      const target = document.getElementById(id);
+      if (!target) return;
+      e.preventDefault();
+      document.body.classList.remove('menu-open');
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const top = id === 'top' ? 0 : Math.min(max, target.getBoundingClientRect().top + window.scrollY - header.offsetHeight);
+      window.scrollTo({ top, behavior: 'smooth' });
+      // Si l'animation est interrompue, on termine le saut directement
+      setTimeout(() => {
+        if (Math.abs(window.scrollY - top) > 2) window.scrollTo({ top, behavior: 'instant' });
+      }, 900);
+    });
+  });
+
+  // --- Onglets de la carte ---
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t === tab));
+      document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === tab.dataset.tab));
+    });
+  });
+
+  // --- Formulaire de réservation (démo) ---
+  document.getElementById('f-date').min = now.toISOString().slice(0, 10);
+  document.getElementById('resaForm').addEventListener('submit', e => {
+    e.preventDefault();
+    document.getElementById('formOk').classList.add('show');
+    e.target.querySelector('button').disabled = true;
+  });
+</script>
+</body>
+</html>
